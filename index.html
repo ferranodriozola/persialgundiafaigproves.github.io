@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="script.js"></script>
+    <title>Rimador</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Rimador</h1>
+        <p>Cerca la paraula aquí:</p>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search..." />
+            <button onclick="search()">Cercar</button>
+        </div>
+        <hr />
+        <div class="dropdown-container">
+            <label for="tipus.rima">Tipus de rima:</label>
+            <select id="tipus.rima" class="custom-dropdown" onchange="handleDropdownChange(this)">
+                <optgroup label="Tipus de rima">
+                    <option value="assonant">Assonant</option>
+                    <option value="consonant">Consonant</option>
+                </optgroup>
+            </select>
+
+            <label for="tipus.inici">Comença per:</label>
+            <select id="tipus.inici" class="custom-dropdown" onchange="handleDropdownChange(this)">
+                <optgroup label="Comença per">
+                    <option value="inici.indiferent">Indiferent</option>
+                    <option value="inici.vocal.h">Vocal o H</option>
+                    <option value="inici.consonant">Consonant</option>
+                </optgroup>
+            </select>
+
+            <label for="num.sil">Número de síl·labes:</label>
+            <select id="num.sil" class="custom-dropdown" onchange="handleDropdownChange(this)">
+                <optgroup label="Número de síl·labes">
+                    <option value="totes">Totes</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="+6">Més de 6</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div>
+            <h4>Resultats:</h4>
+            <div id="resultContainer"></div>
+        </div>
+
+        <hr /> <!-- Add a horizontal line here -->
+
+
+        <!-- Clickable buttons section -->
+        <input type="checkbox" class="clickable-checkbox" id="checkbox1" onchange="toggleList('list1')">
+        <label for="checkbox1">Noms</label>
+        <ul id="list1" style="display: none;">
+            <li><input type="checkbox" class="clickable-checkbox">Propis</li>
+            <li><input type="checkbox" class="clickable-checkbox">Comuns</li>
+        </ul>
+
+        <p>
+            <!-- Second checkbox on the next paragraph -->
+            <input type="checkbox" class="clickable-checkbox" id="checkbox2" onchange="toggleList('list2')">
+            <label for="checkbox2">Verbs</label>
+            <ul id="list2" style="display: none;">
+                <li><input type="checkbox" class="clickable-checkbox">Indicatiu</li>
+                <li><input type="checkbox" class="clickable-checkbox">Subjuntiu</li>
+            </ul>
+        </p>
+        <!-- End of Clickable buttons section -->
+    </div>
+</body>
+
+</html>

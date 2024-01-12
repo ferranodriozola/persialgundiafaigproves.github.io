@@ -1,0 +1,41 @@
+/* Existing styles */
+/*.container {
+    /* Your existing styles for the container */
+
+
+/* Add your existing styles for other elements here */
+
+/*.custom-dropdown {
+    /* Your existing styles for dropdowns */
+
+
+/* Add your existing styles for other elements here */
+
+/*#resultContainer {
+    /* Your existing styles for the result container */
+
+/* Add your existing styles for other elements here */
+
+/* Styles for the clickable buttons */
+.clickable-button {
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    margin: 4px;
+    text-align: left;
+    width: 100%;
+    display: block;
+}
+
+/* Styles for the nested list items */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Styles for the nested list items */
+li {
+    margin-left: 20px;
+}
