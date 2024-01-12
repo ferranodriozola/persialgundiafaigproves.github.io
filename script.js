@@ -86,12 +86,9 @@ function processData(data, searchTerm, resultDiv) {
         const [firstColumn, secondColumn] = lines[i].split(',');
         const currentTerm = secondColumn.trim().toLowerCase();
         const firstLetter = firstColumn.trim().toLowerCase()[0]; // Obté la primera lletra
-        console.log(`Primera lletra "${firstLetter}"`);
 
         // Comprovar si el terme de cerca existeix a la segona columna
-        console.log(`Comparant amb ${currentTerm}`);
         if (currentTerm === searchTerm) {
-            console.log('Coincidència trobada!');
 
             if (valueDropdown2inici === 'inici.indiferent') {
                 // Afegir a matches si valueDropdown2 és igual a 1
