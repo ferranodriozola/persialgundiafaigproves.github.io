@@ -35,7 +35,6 @@ function toggleCheckboxes() {
     adjectiusList.style.display = "block";
     determinantsList.style.display = "block";
 
-
 }
 
 
