@@ -1,0 +1,23 @@
+/* Afegit al teu fitxer styles.css o en un fitxer CSS separat */
+ul {
+    list-style: none;
+}
+
+/* Opcional: També pots eliminar els punts per als subelements de la llista (els <li>) */
+ul li {
+    list-style: none;
+}
+
+/* Opcional: Potser voldràs mantenir una mica d'espai o estilitzar els elements <li> d'alguna manera. */
+li {
+    margin-bottom: 5px; /* Canvia-ho segons les teves preferències */
+}
+
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}

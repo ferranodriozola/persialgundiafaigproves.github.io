@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llista de Checkboxs</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+
+    <h1>Llista de Checkboxs</h1>
+
+    <button id="toggleButton" onclick="toggleCheckboxes()">Mostrar/Ocultar Checkboxs</button>
+
+    <div id="checkboxContainer">
+
+        <!-- Secció "Verbs" -->
+        <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox1" onchange="toggleVerbsList()"> Verbs
+        </label>
+
+        <ul id="verbsList" class="visible">
+            <li class="no-list-style">
+                <input type="checkbox" class="clickable-checkbox" id="indicatiucheckbox" onchange="toggleIndicatiuList()"> Indicatiu
+                <ul id="indicatiuList" class="visible">
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Present</li>
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Imperfet</li>
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Passat simple</li>
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Futur</li>
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Condicional</li>
+
+                </ul>
+            </li>
+            <li class="no-list-style">
+                <input type="checkbox" class="clickable-checkbox" id="subjuntiucheckbox" onchange="toggleSubjuntiuList()"> Subjuntiu
+                <ul id="subjuntiuList" class="visible">
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Present</li>
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Imperfet</li>
+
+                </ul>
+            </li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Imperatiu</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Infinitius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Participis</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox"> Infinitius</li>
+        </ul><br>
+
+        <!-- Secció "Noms" -->
+        <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox2" onchange="toggleNomsList()"> Noms
+        </label>
+
+        <ul id="nomsList" class="visible">
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Propis</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Comuns</li>
+        </ul><br>
+
+        <!-- Secció "Adjectius" -->
+        <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox3" onchange="toggleAdjectiusList()"> Adjectius
+        </label>
+
+        <ul id="adjectiusList" class="visible">
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Qualificatius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Superlatius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Numerals (ordinals)</li>
+        </ul><br>
+
+         <!-- Secció "Determinants" -->
+         <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox4" onchange="toggleDeterminantsList()"> Determinants
+        </label>
+
+        <ul id="determinantsList" class="visible">
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Articles</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Numerals</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Relatius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Interrogatius / (Exclamatius)</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Demostratius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Indefinits</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Possessius</li>
+        </ul><br>
+
+         <!-- Secció "Pronoms" -->
+         <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox5" onchange="togglePronomsList()"> Pronoms
+        </label>
+
+        <ul id="pronomsList" class="visible">
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Demostratius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Indefinits</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Interrogatius / Exclamatius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Relatius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Possessius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Personals (forts i febles)</li>
+        </ul><br>
+
+       <!-- Secció "Adverbis" -->
+      <label>
+          <input type="checkbox" class="clickable-checkbox" id="checkbox3"> Adverbis
+      </label><br>
+
+      <!-- Secció "Interjeccions" -->
+     <label>
+         <input type="checkbox" class="clickable-checkbox" id="checkbox3"> Interjeccions
+     </label><br>
+
+     <!-- Secció "Conjuncions" -->
+    <label>
+        <input type="checkbox" class="clickable-checkbox" id="checkbox3"> Conjuncions
+    </label><br>
+
+    <!-- Secció "Preposicions" -->
+   <label>
+       <input type="checkbox" class="clickable-checkbox" id="checkbox3"> Preposicions
+   </label><br>
+
+    </div>
+
+</body>
+</html>
