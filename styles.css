@@ -1,41 +1,23 @@
-/* Existing styles */
-/*.container {
-    /* Your existing styles for the container */
-
-
-/* Add your existing styles for other elements here */
-
-/*.custom-dropdown {
-    /* Your existing styles for dropdowns */
-
-
-/* Add your existing styles for other elements here */
-
-/*#resultContainer {
-    /* Your existing styles for the result container */
-
-/* Add your existing styles for other elements here */
-
-/* Styles for the clickable buttons */
-.clickable-button {
-    cursor: pointer;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 8px;
-    margin: 4px;
-    text-align: left;
-    width: 100%;
-    display: block;
-}
-
-/* Styles for the nested list items */
+/* Afegit al teu fitxer styles.css o en un fitxer CSS separat */
 ul {
-    list-style-type: none;
-    padding: 0;
+    list-style: none;
 }
 
-/* Styles for the nested list items */
+/* Opcional: També pots eliminar els punts per als subelements de la llista (els <li>) */
+ul li {
+    list-style: none;
+}
+
+/* Opcional: Potser voldràs mantenir una mica d'espai o estilitzar els elements <li> d'alguna manera. */
 li {
-    margin-left: 20px;
+    margin-bottom: 5px; /* Canvia-ho segons les teves preferències */
+}
+
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
 }
