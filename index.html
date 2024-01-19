@@ -20,7 +20,7 @@
     <div id="checkboxContainer">
          <!-- Secció "Pronoms" -->
          <label>
-            <input type="checkbox" class="clickable-checkbox" id="checkbox5" onchange="togglePronomsList()"> Pronoms
+            <input type="checkbox" class="clickable-checkbox" id="checkbox5" onchange="toggleList('pronomsList', 'checkbox5')" onclick="handleCheckboxClickPronoms(event)"> Pronoms
         </label>
 
         <ul id="pronomsList"  style="display: none" onclick="handleCheckboxClickPronoms(event)">
