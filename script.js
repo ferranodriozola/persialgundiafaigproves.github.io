@@ -1,57 +1,15 @@
-function toggleVerbsList() {
-    var verbsList = document.getElementById("verbsList");
-    var checkbox1 = document.getElementById("checkbox1");
+function toggleList(listID, checkboxID) {
+    var listID = document.getElementById(listID);
+    var checkboxID = document.getElementById(checkboxID);
+    var isChecked = checkboxID.checked;
 
-    verbsList.style.display = checkbox1.checked ? "block" : "none";
+    listID.style.display = isChecked ? "block" : "none";
+
+    var checkboxes = listID.querySelectorAll("input[type='checkbox']");
+    checkboxes.forEach(function (checkbox) {
+        checkbox.checked = isChecked;
+    });
 }
-function toggleIndicatiuList() {
-    var indicatiuList = document.getElementById("indicatiuList");
-    var indicatiucheckbox = document.getElementById("indicatiucheckbox");
-
-    indicatiuList.style.display = indicatiucheckbox.checked ? "block" : "none";
-}
-
-function toggleSubjuntiuList() {
-    var subjuntiuList = document.getElementById("subjuntiuList");
-    var subjuntiucheckbox = document.getElementById("subjuntiucheckbox");
-
-    subjuntiuList.style.display = subjuntiucheckbox.checked ? "block" : "none";
-}
-
-
-
-
-function toggleNomsList() {
-    var nomsList = document.getElementById("nomsList");
-    var checkbox2 = document.getElementById("checkbox2");
-
-    nomsList.style.display = checkbox2.checked ? "block" : "none";
-}
-
-function toggleAdjectiusList() {
-    var adjectiusList = document.getElementById("adjectiusList");
-    var checkbox3 = document.getElementById("checkbox3");
-
-    adjectiusList.style.display = checkbox3.checked ? "block" : "none";
-}
-
-function toggleDeterminantsList() {
-    var determinantsList = document.getElementById("determinantsList");
-    var checkbox4 = document.getElementById("checkbox4");
-
-    determinantsList.style.display = checkbox4.checked ? "block" : "none";
-}
-
-function togglePronomsList() {
-    var pronomsList = document.getElementById("pronomsList");
-    var checkbox5 = document.getElementById("checkbox5");
-
-    pronomsList.style.display = checkbox5.checked ? "block" : "none";
-
-    console.log(matches)
-
-}
-
 
 var matches = [
     "indefinit$base1$PI0MS000$b ˈa . z ə$ˈaə$a . z ə$aə$2",
@@ -65,33 +23,28 @@ var matches = [
 
 var matches_provisionals = matches
 
-function actualitzarRimes() {
-    matches_provisionals.sort();
-    var numerorimes = "Nombre de rimes: " + matches_provisionals.length;
-        document.getElementById("nombre").innerHTML = numerorimes;
-
-    var rimes = "Rimes:<br><br>";
-    for (var i = 0; i < matches_provisionals.length; i++) {
-        var parts = matches_provisionals[i].split("$");
-        rimes += parts[0] + "<br>";
-    }
-
-    document.getElementById("rimes").innerHTML = rimes;
-}
-
-
-
-
-
-
-
-
 
 function handleCheckboxClickPronoms(event) {
     if (event.target.type === 'checkbox') {
         const checkboxLabel = event.target.parentNode.innerText.trim();
 
-        if (checkboxLabel === 'Demostratius') {
+        if (checkboxLabel === 'Pronoms') {
+            if (event.target.checked) {
+                console.log('Checkbox "Pronoms" clicat');
+                const Lines = matches.filter(item => {
+                    const columnes = item.split('$');
+                    return columnes[2].startsWith('P');
+                });
+                matches_provisionals = matches_provisionals.concat(Lines);
+            } else {
+                console.log('Checkbox "Pronoms" desclicat');
+                matches_provisionals = matches_provisionals.filter(item => {
+                    const columnes = item.split('$');
+                    return !columnes[2].startsWith('P');
+                });
+            }
+
+        } else if (checkboxLabel === 'Demostratius') {
             if (event.target.checked) {
                 console.log('Checkbox "Demostratius" clicat');
                 const Lines = matches.filter(item => {
@@ -221,27 +174,6 @@ var resultats = obtenirValorsSegonsPrimerCaracter(matches);
 var elementsAMostrarPronoms = resultats.resultatsP;
 var elementsAMostrarDeterminants = resultats.resultatsD;
 
-
-function cercar() {
-    actualitzarRimes()
-    var checkboxes = document.querySelectorAll('.clickable-checkbox');
-
-    checkboxes.forEach(function(checkbox) {
-        checkbox.checked = true;
-    });
-    
-    mostrarTotesLesLlistes();
-}
-
-
-function mostrarTotesLesLlistes() {
-    obtenirValorsSegonsPrimerCaracter(matches)
-
-    mostrarLlista('pronoms', elementsAMostrarPronoms);
-    mostrarLlista('determinants', elementsAMostrarDeterminants);
-}
-
-
 function obtenirValorsSegonsPrimerCaracter(matches) {
     var resultatsP = [];
     var resultatsD = [];
@@ -288,10 +220,43 @@ function obtenirValorsSegonsPrimerCaracter(matches) {
     };
 }
 
+function cercar() {
+    matches_provisionals = matches.slice();
+    actualitzarRimes()
+    var checkboxes = document.querySelectorAll('.clickable-checkbox');
+
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = true;
+    });
+    
+    mostrarTotesLesLlistes();
+}
+
+
+function actualitzarRimes() {
+    matches_provisionals.sort();
+    var numerorimes = "Nombre de rimes: " + matches_provisionals.length;
+        document.getElementById("nombre").innerHTML = numerorimes;
+
+    var rimes = "Rimes:<br><br>";
+    for (var i = 0; i < matches_provisionals.length; i++) {
+        var parts = matches_provisionals[i].split("$");
+        rimes += parts[0] + "<br>";
+    }
+
+    document.getElementById("rimes").innerHTML = rimes;
+}
+
+
+function mostrarTotesLesLlistes() {
+    obtenirValorsSegonsPrimerCaracter(matches)
+
+    mostrarLlista('pronoms', elementsAMostrarPronoms);
+    mostrarLlista('determinants', elementsAMostrarDeterminants);
+}
+
 
 function mostrarLlista(tipusLlista, elementsAMostrar) {
-    // Mostra el títol i la llista només si hi ha elements per mostrar
-
     if (elementsAMostrar.length > 0) {
         var titleSelector = '#checkboxContainer label input#' + (tipusLlista === 'pronoms' ? 'checkbox5' : 'checkbox4');
         var listSelector = '#' + tipusLlista + 'List';
@@ -303,13 +268,11 @@ function mostrarLlista(tipusLlista, elementsAMostrar) {
             listTitle.parentElement.style.display = 'block';
             list.style.display = 'block';
 
-            // Recorre tots els elements de la llista i amaga'ls inicialment
             var elementsDeLlista = list.querySelectorAll('li');
             elementsDeLlista.forEach(function(element, index) {
                 element.style.display = 'none';
             });
 
-            // Mostra només els elements especificats a 'elementsAMostrar'
             elementsAMostrar.forEach(function(indexToShow) {
                 if (indexToShow < elementsDeLlista.length) {
                     elementsDeLlista[indexToShow].style.display = 'list-item';
@@ -317,7 +280,6 @@ function mostrarLlista(tipusLlista, elementsAMostrar) {
             });
         }
     } else {
-        // Si no hi ha elements a mostrar, oculta el títol
         var titleSelector = '#checkboxContainer label input#' + (tipusLlista === 'pronoms' ? 'checkbox5' : 'checkbox4');
         var listTitle = document.querySelector(titleSelector);
 
