@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IND4</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
 
+<body>
+
+    <h1>Llista de Checkboxes</h1>
+
+    <p id="nombre"></p>
+    <p id="rimes"></p><br>
+
+    <button id="cerca" onclick="cercar()">Cercar</button>
+
+    <div id="checkboxContainer">
+        <!-- Secció "Verbs" -->
+        <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox2" onchange="toggleList('verbsList', 'checkbox2')" onclick="handleCheckboxClick(event, CriterisVerbs)"> Verbs
+        </label>
+
+        <ul id="verbsList" style="display: none" onclick="handleCheckboxClick(event, CriterisVerbs)">
+            <li>
+                <label>
+                    <input type="checkbox" class="clickable-checkbox" id="indicatiucheckbox"> Indicatiu
+                </label>
+
+                <ul id="indicatiuList" style="display: none">
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Present</li>
+                    <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Imperfet</li>
+                </ul>
+            </li>
+
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Subjuntiu</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Imperatiu</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Gerundis</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Participis</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Infinitius</li>
+        </ul>
+        <br>
+
+         <!-- Secció "Pronoms" -->
+         <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox5" onchange="toggleList('pronomsList', 'checkbox5')" onclick="handleCheckboxClick(event, CriterisPronoms)"> Pronoms
+        </label>
+
+        <ul id="pronomsList"  style="display: none" onclick="handleCheckboxClick(event, CriterisPronoms)">
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Demostratius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Indefinits</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Interrogatius / Exclamatius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Personals (forts i febles)</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Possessius</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Relatius</li>
+
+        </ul><br>
+    </div>
+
+</body>
+</html>
