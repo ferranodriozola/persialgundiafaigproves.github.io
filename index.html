@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Llista de Checkboxs</title>
+    <title>IND3</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
 </head>
 
 <body>
 
-    <h1>Llista de Checkboxs</h1>
+    <h1>Llista de Checkboxes</h1>
 
     <p id="nombre"></p>
     <p id="rimes"></p><br>
@@ -18,12 +18,38 @@
     <button id="cerca" onclick="cercar()">Cercar</button>
 
     <div id="checkboxContainer">
+        <!-- Secció "Noms" -->
+        <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox1" onchange="toggleList('nomsList', 'checkbox1')" onclick="handleCheckboxClick(event, CriterisNoms)"> Noms
+        </label>
+        
+        <ul id="nomsList" style="display: none" onclick="handleCheckboxClick(event, CriterisNoms)">
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Propis</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Comuns</li>
+        </ul>
+        <br>
+
+        <!-- Secció "Verbs" -->
+        <label>
+            <input type="checkbox" class="clickable-checkbox" id="checkbox2" onchange="toggleList('verbsList', 'checkbox2')" onclick="handleCheckboxClick(event, CriterisVerbs)"> Verbs
+        </label>
+        
+        <ul id="verbsList" style="display: none" onclick="handleCheckboxClick(event, CriterisVerbs)">
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Indicatiu</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Subjuntiu</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Imperatiu</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Gerundis</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Participis</li>
+            <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Infinitius</li>
+        </ul>
+        <br>
+
          <!-- Secció "Pronoms" -->
          <label>
-            <input type="checkbox" class="clickable-checkbox" id="checkbox5" onchange="toggleList('pronomsList', 'checkbox5')" onclick="handleCheckboxClickPronoms(event)"> Pronoms
+            <input type="checkbox" class="clickable-checkbox" id="checkbox5" onchange="toggleList('pronomsList', 'checkbox5')" onclick="handleCheckboxClick(event, CriterisPronoms)"> Pronoms
         </label>
 
-        <ul id="pronomsList"  style="display: none" onclick="handleCheckboxClickPronoms(event)">
+        <ul id="pronomsList"  style="display: none" onclick="handleCheckboxClick(event, CriterisPronoms)">
             <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Demostratius</li>
             <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Indefinits</li>
             <li class="no-list-style"><input type="checkbox" class="clickable-checkbox">Interrogatius / Exclamatius</li>
