@@ -1,224 +1,248 @@
 function toggleList(listID, checkboxID) {
-    var listID = document.getElementById(listID);
-    var checkboxID = document.getElementById(checkboxID);
-    var isChecked = checkboxID.checked;
-
-    listID.style.display = isChecked ? "block" : "none";
-
-    var checkboxes = listID.querySelectorAll("input[type='checkbox']");
-    checkboxes.forEach(function (checkbox) {
-        checkbox.checked = isChecked;
-    });
+    var list = document.getElementById(listID);
+    var checkboxTitle = document.getElementById(checkboxID);
+  
+    // Obtenim totes les checkboxes dins de la llista
+    var checkboxes = list.querySelectorAll('input[type="checkbox"]');
+  
+    if (checkboxTitle.checked) {
+      // Si el checkbox de títol està marcat, iterem sobre totes les checkboxes i les marquem
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = true;
+      });
+    } else {
+      // Si el checkbox de títol està desmarcat, iterem sobre totes les checkboxes i les desmarquem
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = false;
+      });
+    }
 }
 
+  
 var matches = [
-    "indefinit$base1$PI0MS000$b ˈa . z ə$ˈaə$a . z ə$aə$2",
-    "interrogatiu$críptic$PT0MS000$k ɾ ˈi p . t i k$ˈii$i p . t i k$ii$2",
-    "personal0$críptic$P010S000$k ɾ ˈi p . t i k$ˈii$i p . t i k$ii$2",
-    "personalP$casa$PP1MSN00$k ˈa . z ə$ˈaə$a . z ə$aə$2",
-    "possessiu$amfibi$PX1MS0S0$ə m . f ˈi . β i$əˈii$i . β i$ii$3",
-    "relatiu$críptic$PR0CS000$k ɾ ˈi p . t i k$ˈii$i p . t i k$ii$2",
-    "demostratiu$humà$PD0MS000$u . m ˈa . n ə$uˈaə$a . n ə$aə$3",
+    "present indicatiu$a$VIP000$$$$$",
+    "imperfet indicatiu$a$VII$$$$$",
+    "passatsimple indicatiu$a$VIS$$$$$",
+    "futur indicatiu$a$VIF$$$$$",
+    "condicional indicatiu$a$VIC$$$$$",
+    "present subjuntiu$a$VSP$$$$$",
+    "imperfet subjuntiu$a$VSI$$$$$",
+    "imperatiu$a$VM0$$$$$",
+    "gerundi$a$VG0$$$$$",
+    "participi$a$VP0$$$$$",
+    "infinitiu$a$VN0$$$$$",
+    "indefinit$a$PI0MS000$$$$$",
+    "interrogatiu$a$PT0MS000$$$$$",
+    "personal0$a$P010S000$$$$$",
+    "personalP$a$PP1MSN00$$$$$",
+    "possessiu$a$PX1MS0S0$$$$$",
+    "relatiu$a$PR0CS000$$$$$",
+    "demostratiu$a$PD0MS000$$$$$",
+    "Marc$a$NP000$$$$$",
+    "casa$a$NC00$$$$$",
+
+
 ];
 
 var matches_provisionals = matches
 
 
-function handleCheckboxClickPronoms(event) {
+function handleCheckboxClick(event, checkboxCriteria) {
+    // Comprova si l'esdeveniment està associat a una casella de verificació
     if (event.target.type === 'checkbox') {
+        // Obté l'etiqueta de la casella de verificació des de l'element pare
         const checkboxLabel = event.target.parentNode.innerText.trim();
 
-        if (checkboxLabel === 'Pronoms') {
+        // Verifica si l'etiqueta existeix com a clau a l'objecte checkboxCriteria
+        if (checkboxLabel in checkboxCriteria) {
+            // Obté la funció de filtre associada a l'etiqueta de la casella de verificació
+            const { filterFunction } = checkboxCriteria[checkboxLabel];
+
+            // Accions basades en l'estat de la casella de verificació
             if (event.target.checked) {
-                console.log('Checkbox "Pronoms" clicat');
-                const Lines = matches.filter(item => {
-                    const columnes = item.split('$');
-                    return columnes[2].startsWith('P');
-                });
-                matches_provisionals = matches_provisionals.concat(Lines);
-            } else {
-                console.log('Checkbox "Pronoms" desclicat');
-                matches_provisionals = matches_provisionals.filter(item => {
-                    const columnes = item.split('$');
-                    return !columnes[2].startsWith('P');
-                });
-            }
+                // Si la casella està marcada, filtra l'array matches
+                const linesToAdd = matches.filter(filterFunction);
 
-        } else if (checkboxLabel === 'Demostratius') {
-            if (event.target.checked) {
-                console.log('Checkbox "Demostratius" clicat');
-                const Lines = matches.filter(item => {
-                    const columnes = item.split('$');
-                    return columnes[2].startsWith('PD');
-                });
-                matches_provisionals = matches_provisionals.concat(Lines);
+                // Filtra només les línies que encara no estan a matches_provisionals
+                const uniqueLinesToAdd = linesToAdd.filter(line => !matches_provisionals.includes(line));
 
-            } else {
-                console.log('Checkbox "Demostratius" desclicat');
-                matches_provisionals = matches_provisionals.filter(item => {
-                    const columnes = item.split('$');
-                    return !columnes[2].startsWith('PD');
-                });
-            }
+                // Afegeix les línies úniques a matches_provisionals
+                matches_provisionals = matches_provisionals.concat(uniqueLinesToAdd);
 
-        } else if (checkboxLabel === 'Indefinits') {
-            if (event.target.checked) {
-                console.log('Checkbox "Indefinits" clicat');
-                const Lines = matches.filter(item => {
-                    const columnes = item.split('$');
-                    return columnes[2].startsWith('PI');
-                });
-                matches_provisionals = matches_provisionals.concat(Lines);
-
-            } else {
-                console.log('Checkbox "Indefinits" desclicat');
-                matches_provisionals = matches_provisionals.filter(item => {
-                    const columnes = item.split('$');
-                    return !columnes[2].startsWith('PI');
-                });
-            }
+                // Imprimeix la informació al console
+                console.log(`Checkbox "${checkboxLabel}" marcada`);
+                console.log('Línies afegides:', uniqueLinesToAdd);
+                console.log('Matches provisionals actuals:', matches_provisionals);
             
-        } else if (checkboxLabel === 'Interrogatius / Exclamatius') {
-            if (event.target.checked) {
-                console.log('Checkbox "Interrogatius / Exclamatius" clicat');
-                const Lines = matches.filter(item => {
-                    const columnes = item.split('$');
-                    return columnes[2].startsWith('PT');
-                });
-                matches_provisionals = matches_provisionals.concat(Lines);
-
             } else {
-                console.log('Checkbox "Interrogatius / Exclamatius" desclicat');
-                matches_provisionals = matches_provisionals.filter(item => {
-                    const columnes = item.split('$');
-                    return !columnes[2].startsWith('PT');
-                });
+                // Si la casella està desmarcada, elimina les línies corresponents de matches_provisionals
+                console.log(`Checkbox "${checkboxLabel}" desclicat`);
+                matches_provisionals = matches_provisionals.filter(item => !filterFunction(item));
             }
 
-        } else if (checkboxLabel === 'Personals (forts i febles)') {
-            if (event.target.checked) {
-                console.log('Checkbox "Personals (forts i febles)" clicat');
-                const Lines = matches.filter(item => {
-                    const columnes = item.split('$');
-                    return (columnes[2].startsWith('PP') || columnes[2].startsWith('P0'));
-                });
-                matches_provisionals = matches_provisionals.concat(Lines);
+            matches_provisionals.sort();
 
-            } else {
-                console.log('Checkbox "Personals (forts i febles)" desclicat');
-                matches_provisionals = matches_provisionals.filter(item => {
-                    const columnes = item.split('$');
-                    return !(columnes[2].startsWith('PP') || columnes[2].startsWith('P0'));
-                });
-            }
+            actualitzarRimes();
 
-        } else if (checkboxLabel === 'Possessius') {
-            if (event.target.checked) {
-                console.log('Checkbox "Possessius" clicat');
-                const Lines = matches.filter(item => {
-                    const columnes = item.split('$');
-                    return columnes[2].startsWith('PX');
-                });
-                matches_provisionals = matches_provisionals.concat(Lines);
-
-            } else {
-                console.log('Checkbox "Possessius" desclicat');
-                matches_provisionals = matches_provisionals.filter(item => {
-                    const columnes = item.split('$');
-                    return !columnes[2].startsWith('PX');
-                });
-            }
-
-        } else if (checkboxLabel === 'Relatius') {
-            if (event.target.checked) {
-                console.log('Checkbox "Relatius" clicat');
-                const Lines = matches.filter(item => {
-                    const columnes = item.split('$');
-                    return columnes[2].startsWith('PR');
-                });
-                matches_provisionals = matches_provisionals.concat(Lines);
-
-            } else {
-                console.log('Checkbox "Relatius" desclicat');
-                matches_provisionals = matches_provisionals.filter(item => {
-                    const columnes = item.split('$');
-                    return !columnes[2].startsWith('PR');
-                });
-            }
-        }
-
-
-        matches_provisionals.sort();
-
-        actualitzarRimes();
-        console.log(matches);
-        console.log(matches_provisionals);
-    }
+            console.log(matches);
+            console.log(matches_provisionals);
+    }   }
 }
 
 
 
+const CriterisIndicatiu = {
+    'Indicatiu': {
+        filterFunction: item => item.split('$')[2].startsWith('VI'),
+    },
+    'Present': {
+        filterFunction: item => item.split('$')[2].startsWith('VIP'),
+    },
+    'Imperfet': {
+        filterFunction: item => item.split('$')[2].startsWith('VII'),
+    },
+    'Passat simple': {
+        filterFunction: item => item.split('$')[2].startsWith('VIS'),
+    },
+    'Futur': {
+        filterFunction: item => item.split('$')[2].startsWith('VIF'),
+    },
+    'Condicional': {
+        filterFunction: item => item.split('$')[2].startsWith('VIC'),
+    },
+};
+
+const CriterisSubjuntiu = {
+    'Subjuntiu': {filterFunction: item => item.split('$')[2].startsWith('VS')},
+    'Present': {filterFunction: item => item.split('$')[2].startsWith('VSP'),
+    },
+    'Imperfet': {
+        filterFunction: item => item.split('$')[2].startsWith('VSI'),
+    },
+};
 
 
+function crearCriteris(nom, prefix) {
+    return {
+        [`${nom}`]: {
+            filterFunction: item => item.split('$')[2].startsWith(`${prefix}`),},};
+}
 
+function crearCriterisDobles(nom, prefix1, prefix2) {
+    return {
+        [`${nom}`]: {
+            filterFunction: item => item.split('$')[2].startsWith(prefix1) || item.split('$')[2].startsWith(prefix2),},};
+}
 
+const CriterisVerbs = {
+    ...crearCriteris('Verbs', 'V'),
+    ...crearCriteris('Indicatiu', 'VI'),
+    ...crearCriteris('Subjuntiu', 'VS'),
+    ...crearCriteris('Imperatiu', 'VM'),
+    ...crearCriteris('Gerundis', 'VG'),
+    ...crearCriteris('Participis', 'VP'),
+    ...crearCriteris('Infinitius', 'VN'),
+};
 
+const CriterisPronoms = {
+    ...crearCriteris('Pronoms', 'P'),
+    ...crearCriteris('Demostratius', 'PD'),
+    ...crearCriteris('Indefinits', 'PI'),
+    ...crearCriteris('Interrogatius / Exclamatius', 'PT'),
+    ...crearCriterisDobles('Personals (forts i febles)', 'PP', 'P0'),
+    ...crearCriteris('Possessius', 'PX'),
+    ...crearCriteris('Relatius', 'PR'),
+};
 
-
-
-
+const CriterisNoms = {
+    ...crearCriteris('Noms', 'N'),
+    ...crearCriteris('Propis', 'NP'),
+    ...crearCriteris('Comuns', 'NC'),
+};
 
 
 
 var resultats = obtenirValorsSegonsPrimerCaracter(matches);
 var elementsAMostrarPronoms = resultats.resultatsP;
-var elementsAMostrarDeterminants = resultats.resultatsD;
+var elementsAMostrarVerbs = resultats.resultatsV;
+var elementsAMostrarVerbsIndicatiu = resultats.resultatsVI;
+var elementsAMostrarVerbsSubjuntiu = resultats.resultatsVS;
+var elementsAMostrarNoms = resultats.resultatsN;
+
 
 function obtenirValorsSegonsPrimerCaracter(matches) {
     var resultatsP = [];
-    var resultatsD = [];
+    var resultatsV = [];
+    var resultatsVI = [];
+    var resultatsVS = [];
+    var resultatsN = [];
     var resultatsAltres = [];
 
     for (var i = 0; i < matches.length; i++) {
         var terceraColumna = matches[i].split('$')[2];
         var primerCaracter = terceraColumna.charAt(0);
         var segonCaracter = terceraColumna.charAt(1);
+        var tercerCaracter = terceraColumna.charAt(2);
 
-        if (primerCaracter === "P") { //Pronoms
-            if (segonCaracter === "D") { //Demostratius
-                resultatsP.push(0);
+        switch (primerCaracter) {
+            case "P": // Pronoms
+                switch (segonCaracter) {
+                    case "D": resultatsP.push(0); break; // Demostratius
+                    case "I": resultatsP.push(1); break; // Indefinits
+                    case "T": resultatsP.push(2); break; // Interrogatius / Exclamatius
+                    case "P": case "0": resultatsP.push(3); break; // Personals
+                    case "X": resultatsP.push(4); break; // Possessius
+                    case "R": resultatsP.push(5); break; // Relatius
+                }
+                break;
+            case "V": // Verbs
+                switch (segonCaracter) {
+                    case "I": // Indicatiu
+                        resultatsV.push(0);
+                        switch (tercerCaracter) {
+                            case "P": resultatsVI.push(0); break; // Present
+                            case "I": resultatsVI.push(1); break; // Imperfet
+                            case "S": resultatsVI.push(2); break; // Passat Simple
+                            case "F": resultatsVI.push(3); break; // Futur
+                            case "C": resultatsVI.push(4); break; // Condicional
+                        }
+                        break;
+                    case "S": // Subjuntiu
+                        resultatsV.push(1);
+                        switch (tercerCaracter) {
+                            case "P": resultatsVS.push(0); break; // Present
+                            case "I": resultatsVS.push(1); break; // Imperfet
+                        }
+                        break;
+                    case "M": resultatsV.push(2); break; // Imperatiu
+                    case "G": resultatsV.push(3); break; // Gerundi
+                    case "P": resultatsV.push(4); break; // Participi
+                    case "N": resultatsV.push(5); break; // Infinitiu
+                }
+            case "N": // Noms
+                switch (segonCaracter) {
+                    case "P": resultatsN.push(0); break; // Propis
+                    case "C": resultatsN.push(1); break; // Comuns
+                }
 
-            } else if (segonCaracter === "I") { //Indefinits
-                resultatsP.push(1);
-
-            } else if (segonCaracter === "T") { //Interrogatius / Exclamatius
-                resultatsP.push(2);
-             
-            } else if (segonCaracter === "P" || segonCaracter === "0") { //Personals
-                resultatsP.push(3);
-
-            } else if (segonCaracter === "X") { //Possessius
-                resultatsP.push(4);
-
-            } else if (segonCaracter === "R") { //Relatius
-                resultatsP.push(5);
-            }                
-        } else if (primerCaracter === "D") {
-            // Accions per a "D"
-            resultatsD.push();
-        } else {
-            // Accions per a altres tipus
-            resultatsAltres.push("Accions per a altres tipus");
+                break;
+            default:
+                resultatsAltres.push("Accions per a altres tipus");
+                break;
         }
     }
 
     // Retornar les variables amb els resultats
     return {
         resultatsP: resultatsP,
-        resultatsD: resultatsD,
-        resultatsAltres: resultatsAltres
+        resultatsV: resultatsV,
+        resultatsVI: resultatsVI,
+        resultatsVS: resultatsVS,
+        resultatsN: resultatsN,
+        resultatsAltres: resultatsAltres,
     };
 }
+
 
 function cercar() {
     matches_provisionals = matches.slice();
@@ -251,40 +275,47 @@ function actualitzarRimes() {
 function mostrarTotesLesLlistes() {
     obtenirValorsSegonsPrimerCaracter(matches)
 
-    mostrarLlista('pronoms', elementsAMostrarPronoms);
-    mostrarLlista('determinants', elementsAMostrarDeterminants);
+    mostrarLlista('pronoms', elementsAMostrarPronoms, 'checkbox5');
+    mostrarLlista('verbs', elementsAMostrarVerbs, 'checkbox2');
+    mostrarLlista('noms', elementsAMostrarNoms, 'checkbox1');
 }
 
 
-function mostrarLlista(tipusLlista, elementsAMostrar) {
-    if (elementsAMostrar.length > 0) {
-        var titleSelector = '#checkboxContainer label input#' + (tipusLlista === 'pronoms' ? 'checkbox5' : 'checkbox4');
-        var listSelector = '#' + tipusLlista + 'List';
 
-        var listTitle = document.querySelector(titleSelector);
-        var list = document.querySelector(listSelector);
+function mostrarLlista(tipusLlista, elementsAMostrar, checkboxId) {
+    var titleSelector = '#' + checkboxId;
+    var listSelector = '#' + tipusLlista + 'List';
 
-        if (listTitle && list) {
-            listTitle.parentElement.style.display = 'block';
-            list.style.display = 'block';
+    var listTitle = document.querySelector(titleSelector);
+    var list = document.querySelector(listSelector);
 
-            var elementsDeLlista = list.querySelectorAll('li');
-            elementsDeLlista.forEach(function(element, index) {
-                element.style.display = 'none';
-            });
+    console.log('List Title:', listTitle);
+    console.log('List:', list);
+    console.log('Elements de la llista:', elementsDeLlista);    
 
-            elementsAMostrar.forEach(function(indexToShow) {
-                if (indexToShow < elementsDeLlista.length) {
-                    elementsDeLlista[indexToShow].style.display = 'list-item';
-                }
-            });
-        }
+    if (listTitle && list) {
+        console.log('Entrant a la condició principal');
+
+        listTitle.parentElement.style.display = elementsAMostrar.length > 0 ? 'block' : 'none';
+        list.style.display = elementsAMostrar.length > 0 ? 'block' : 'none';
+
+        var elementsDeLlista = list.querySelectorAll('li');
+        console.log('elementsDeLlista:', elementsDeLlista);
+
+        elementsDeLlista.forEach(function (element, index) {
+            element.style.display = 'none';  // Amagar tots els elements inicialment
+        });
+
+        elementsAMostrar.forEach(function (indexToShow) {
+            console.log('indexToShow:', indexToShow);
+            console.log('elementsDeLlista.length:', elementsDeLlista.length);
+
+            if (indexToShow < elementsDeLlista.length) {
+                elementsDeLlista[indexToShow].style.display = 'list-item';
+            }
+        });
+
     } else {
-        var titleSelector = '#checkboxContainer label input#' + (tipusLlista === 'pronoms' ? 'checkbox5' : 'checkbox4');
-        var listTitle = document.querySelector(titleSelector);
-
-        if (listTitle) {
-            listTitle.parentElement.style.display = 'none';
-        }
+        console.log('No es compleixen les condicions per entrar a la lògica principal');
     }
 }
