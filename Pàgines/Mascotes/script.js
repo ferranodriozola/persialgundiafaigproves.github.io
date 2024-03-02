@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
       
         galleryItem.innerHTML = `
         <a href="Fotos/${id},${category}.jpg" target="_blank">
-          <img src="Fotos/${id},${category}.jpg" alt="">
+          <img src="Fotos/${id},${category}.jpg" loading="lazy" alt="">
         </a>
         <h3>${id}</h3>
         <p id="migtítol">${category}</p>
