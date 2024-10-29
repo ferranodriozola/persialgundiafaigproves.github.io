@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <title>Botó amb Comptador</title>
+    <!-- Carreguem l'script de GoatCounter i especifiquem la URL del teu comptador -->
+    <script data-goatcounter="https://rimador.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+    <button id="botó-clicat">Fes clic aquí</button>
+
+    <script>
+        // Selecciona el botó amb id 'botó-clicat'
+        document.getElementById('botó-clicat').addEventListener('click', function() {
+            // Envia un esdeveniment personalitzat a GoatCounter
+            goatcounter.count({
+                path: 'clic-boto', // Identificador de l'esdeveniment, pot ser qualsevol nom descriptiu
+                event: true        // Indica que és un esdeveniment personalitzat
+            });
+        });
+    </script>
+
+</body>
+</html>
+
