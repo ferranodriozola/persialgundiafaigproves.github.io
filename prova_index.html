@@ -24,12 +24,11 @@
     <div class="container">
         <pre id="contingut1" class="column"></pre>
         <pre id="contingut2" class="column"></pre>
-        <pre id="contingut3" class="column"></pre>
     </div>
 
     <script>
         let db;
-        const fitxers = ["arxiu1.txt", "arxiu2.txt", "arxiu3.txt"];
+        const fitxers = ["arxiu2.txt", "arxiu3.txt"];
 
         // Obrir (o crear) la base de dades
         const request = indexedDB.open("BaseDeDadesTXT", 1);
@@ -111,10 +110,9 @@
                     resolve(request.result ? request.result.contingut : "");
                 };
                 request.onerror = () => resolve("");
-            }))).then(([contingut1, contingut2, contingut3]) => {
+            }))).then(([contingut1, contingut2]) => {
                 document.getElementById("contingut1").textContent = contingut1;
                 document.getElementById("contingut2").textContent = contingut2;
-                document.getElementById("contingut3").textContent = contingut3;
             });
         }
 
@@ -125,7 +123,6 @@
             document.getElementById("llista-fitxers").innerHTML = "";
             document.getElementById("contingut1").textContent = "";
             document.getElementById("contingut2").textContent = "";
-            document.getElementById("contingut3").textContent = "";
             console.log("Dades esborrades!");
         }
     </script>
