@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregar TXT amb IndexedDB</title>
+    <style>
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+        .column {
+            width: 50%;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Fitxers carregats</h2>
+    <button onclick="esborrarDades()">Esborrar dades</button>
+    <ul id="llista-fitxers"></ul>
+    
+    <div class="container">
+        <pre id="contingut1" class="column"></pre>
+        <pre id="contingut2" class="column"></pre>
+        <pre id="contingut3" class="column"></pre>
+    </div>
+
+    <script>
+        let db;
+        const fitxers = ["arxius/arxiu1.txt", "arxius/arxiu2.txt", "arxius/arxiu3.txt"];
+
+        // Obrir (o crear) la base de dades
+        const request = indexedDB.open("BaseDeDadesTXT", 1);
+
+        request.onupgradeneeded = function (event) {
+            db = event.target.result;
+            if (!db.objectStoreNames.contains("fitxers")) {
+                db.createObjectStore("fitxers", { keyPath: "nom" });
+            }
+        };
+
+        request.onsuccess = function (event) {
+            db = event.target.result;
+            console.log("IndexedDB llest!");
+            carregarFitxers();
+        };
+
+        request.onerror = function (event) {
+            console.error("Error amb IndexedDB:", event.target.errorCode);
+        };
+
+        async function carregarFitxers() {
+            const llista = document.getElementById("llista-fitxers");
+            llista.innerHTML = "";
+            
+            for (const fitxer of fitxers) {
+                const contingut = await carregarISaveFitxer(fitxer);
+                
+                if (contingut) {
+                    const li = document.createElement("li");
+                    li.textContent = fitxer;
+                    li.onclick = () => mostrarFitxers();
+                    llista.appendChild(li);
+                }
+            }
+            mostrarFitxers();
+        }
+
+        async function carregarISaveFitxer(url) {
+            return new Promise((resolve) => {
+                const tx = db.transaction("fitxers", "readonly");
+                const store = tx.objectStore("fitxers");
+                const request = store.get(url);
+                
+                request.onsuccess = async function () {
+                    if (request.result) {
+                        resolve(request.result.contingut);
+                    } else {
+                        try {
+                            const resposta = await fetch(url);
+                            if (!resposta.ok) throw new Error("No s'ha pogut carregar el fitxer");
+                            
+                            const text = await resposta.text();
+                            guardarFitxer(url, text);
+                            resolve(text);
+                        } catch (error) {
+                            console.error("Error carregant", url, error);
+                            resolve(null);
+                        }
+                    }
+                };
+                request.onerror = () => resolve(null);
+            });
+        }
+
+        function guardarFitxer(nom, contingut) {
+            const tx = db.transaction("fitxers", "readwrite");
+            const store = tx.objectStore("fitxers");
+            store.put({ nom, contingut });
+        }
+
+        function mostrarFitxers() {
+            const tx = db.transaction("fitxers", "readonly");
+            const store = tx.objectStore("fitxers");
+
+            Promise.all(fitxers.map(fitxer => new Promise((resolve) => {
+                const request = store.get(fitxer);
+                request.onsuccess = function () {
+                    resolve(request.result ? request.result.contingut : "");
+                };
+                request.onerror = () => resolve("");
+            }))).then(([contingut1, contingut2, contingut3]) => {
+                document.getElementById("contingut1").textContent = contingut1;
+                document.getElementById("contingut2").textContent = contingut2;
+                document.getElementById("contingut3").textContent = contingut3;
+            });
+        }
+
+        function esborrarDades() {
+            const tx = db.transaction("fitxers", "readwrite");
+            const store = tx.objectStore("fitxers");
+            store.clear();
+            document.getElementById("llista-fitxers").innerHTML = "";
+            document.getElementById("contingut1").textContent = "";
+            document.getElementById("contingut2").textContent = "";
+            document.getElementById("contingut3").textContent = "";
+            console.log("Dades esborrades!");
+        }
+    </script>
+</body>
+</html>
